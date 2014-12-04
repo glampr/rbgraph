@@ -1,13 +1,13 @@
 Gem::Specification.new do |s|
   s.name        = 'rbgraph'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.date        = '2014-12-03'
-  s.summary     = 'Generic Ruby graphs and operations on them!'
-  s.description = 'Generic Ruby graphs and operations on them!'
+  s.summary     = 'Ruby graphs!'
+  s.description = 'Simple generic graphs and operations on them in Ruby!'
   s.authors     = ['George Lamprianidis']
   s.email       = 'giorgos.lamprianidis@gmail.com'
   s.files       = Dir["lib/**/*"] + ["Gemfile", "README.md"]
-  s.homepage    = 'http://rubygems.org/gems/rbgraph'
+  s.homepage    = 'https://github.com/glampr/rbgraph'
   s.license     = 'MIT'
 
   s.add_development_dependency "rspec"
