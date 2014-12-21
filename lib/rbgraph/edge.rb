@@ -24,7 +24,8 @@ module Rbgraph
     end
 
     def other_node(node)
-      ([node1, node2] - [node]).first
+      # ([node1, node2] - [node]).first ! Fails for edge connecting a node to itself
+      node == node1 ? node2 : node1
     end
 
     def merge(edge)
