@@ -23,6 +23,10 @@ module Rbgraph
       id
     end
 
+    def other_node(node)
+      ([node1, node2] - [node]).first
+    end
+
     def merge(edge)
       attributes.merge!(edge.attributes.reject { |k, v| k == :id })
       self

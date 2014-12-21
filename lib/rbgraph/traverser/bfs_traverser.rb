@@ -35,8 +35,9 @@ module Rbgraph
           t = queue.deq
           unvisited_nodes.delete(t)
           yield(t) if block_given? # do sth on current node
-          t.neighbors.each do |nid, neighbor|
-            subgraph.add_edge!(t, neighbor)
+          t.edges.each do |eid, edge|
+            neighbor = edge.other_node(t)
+            subgraph.add_edge!(t, neighbor, edge.attributes)
             if !visited_nodes.include?(neighbor)
               visited_nodes.add(neighbor)
               queue.enq(neighbor)
