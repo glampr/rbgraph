@@ -11,7 +11,7 @@ module Rbgraph
       self.node1 = node1
       self.node2 = node2
       self.attributes = attributes
-      self.id = attributes[:id] || "#{node1.id}=#{self.class}=#{node2.id}"
+      self.id = attributes[:id] || "#{node1.id}=#{attributes[:kind]}=#{node2.id}"
     end
 
     def ==(node)
