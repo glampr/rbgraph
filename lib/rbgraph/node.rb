@@ -31,10 +31,26 @@ module Rbgraph
 
     def connect_to(node, edge)
       if neighbors[node.id].nil? && edges[edge.id].nil?
-        neighbors[node.id] = node
-        edges[edge.id] = edge
+        neighbors[node.id] ||= node
+        edges[edge.id] ||= edge
       end
       self
+    end
+
+    def outgoing_edges
+      edges.select { |eid, edge| edge.out_for?(self) }
+    end
+
+    def incoming_edges
+      edges.select { |eid, edge| edge.in_for?(self) }
+    end
+
+    def out_degree
+      outgoing_edges.size
+    end
+
+    def in_degree
+      incoming_edges.size
     end
 
   end

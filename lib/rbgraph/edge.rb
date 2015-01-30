@@ -5,6 +5,7 @@ module Rbgraph
     attr_accessor :id
     attr_accessor :node1
     attr_accessor :node2
+    attr_accessor :directed
     attr_accessor :attributes
 
     def initialize(node1, node2, attributes = {})
@@ -12,6 +13,7 @@ module Rbgraph
       self.node2 = node2
       self.attributes = attributes
       self.id = attributes[:id] || "#{node1.id}=#{attributes[:kind]}=#{node2.id}"
+      self.directed = !!attributes[:directed]
     end
 
     def ==(node)
@@ -31,6 +33,22 @@ module Rbgraph
     def merge(edge)
       attributes.merge!(edge.attributes.reject { |k, v| k == :id })
       self
+    end
+
+    def out_for?(node)
+      if directed
+        node == node1
+      else
+        node == node1 || node == node2
+      end
+    end
+
+    def in_for?(node)
+      if directed
+        node == node2
+      else
+        node == node1 || node == node2
+      end
     end
 
   end

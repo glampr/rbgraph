@@ -40,6 +40,14 @@ will output
 [10, 11]
 ```
 
+Version 0.0.7+
+
+Nodes support in and out degree.
+```ruby
+node.in_degree
+node.out_degree
+```
+depending on if you constructed a Directed or Undirected graph.
 
 ### Disclaimer
 This project is written on a need to use basis for inclusion to other projects I'm working on for now, so completion is not an immediate goal.
