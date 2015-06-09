@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rbgraph (0.0.6)
+    rbgraph (0.0.8)
 
 GEM
   remote: http://rubygems.org/
@@ -26,3 +26,6 @@ PLATFORMS
 DEPENDENCIES
   rbgraph!
   rspec
+
+BUNDLED WITH
+   1.10.3

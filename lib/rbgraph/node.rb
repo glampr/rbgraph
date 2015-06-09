@@ -3,6 +3,7 @@ module Rbgraph
   class Node
 
     attr_accessor :id
+    attr_accessor :graph
     attr_accessor :attributes
     attr_accessor :neighbors
     attr_accessor :edges
@@ -10,7 +11,7 @@ module Rbgraph
     def initialize(attributes = {})
       self.attributes = attributes
       raise "Node should have an id attribute!" if attributes[:id].nil?
-      self.id = attributes[:id]
+      self.id = attributes.delete(:id)
       self.neighbors = {}
       self.edges = {}
     end
@@ -35,6 +36,22 @@ module Rbgraph
         edges[edge.id] ||= edge
       end
       self
+    end
+
+    def remove_neighbor(node)
+      neighbors.delete(node.id)
+    end
+
+    def absorb!(node)
+      node.edges.each do |edge_id, edge|
+        other_node = edge.other_node(node)
+        if edge.out_for?(node)
+          graph.add_edge!(self, other_node, edge.attributes) unless other_node == self
+        elsif edge.in_for?(node)
+          graph.add_edge!(other_node, self, edge.attributes) unless other_node == self
+        end
+      end
+      graph.remove_node!(node)
     end
 
     def outgoing_edges
