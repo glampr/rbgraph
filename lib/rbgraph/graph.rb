@@ -69,6 +69,10 @@ module Rbgraph
       raise NotImplementedError("Cannot connect nodes on a general graph! Use either Directed or Undirected subclasses")
     end
 
+    def inspect
+      edges.map(&:inspect)
+    end
+
   end
 
 end

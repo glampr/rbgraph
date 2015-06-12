@@ -70,6 +70,10 @@ module Rbgraph
       incoming_edges.size
     end
 
+    def inspect
+      "<Rbgraph::Node:##{id} #{attributes.inspect}>"
+    end
+
   end
 
 end

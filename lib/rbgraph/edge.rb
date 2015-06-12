@@ -60,6 +60,10 @@ module Rbgraph
       end
     end
 
+    def inspect
+      "<Rbgraph::Edge:##{id} (#{weight}) [#{node1.inspect} #{directed ? "=(#{attributes[:kind]})=>>" : "==(#{attributes[:kind]})=="} #{node2.inspect}] #{attributes.inspect}>"
+    end
+
   end
 
 end
