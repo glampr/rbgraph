@@ -49,20 +49,28 @@ module Rbgraph
 
     def remove_edge!(edge)
       edge = edge.is_a?(Edge) ? edge : edges[edge]
-      edge.node1.remove_neighbor(edge.node2)
-      edge.node2.remove_neighbor(edge.node1)
+      edge.node1.neighbors.delete(edge.node2.id)
+      edge.node2.neighbors.delete(edge.node1.id)
+      edge.node1.edges.delete(edge.id)
+      edge.node2.edges.delete(edge.id)
       edges.delete(edge.id)
     end
 
-    def merge_nodes!(node_ids, &block)
-      node_ids = node_ids || yield
-      first_node = nodes[node_ids.shift]
-      if !first_node.nil? && !node_ids.empty?
-        node_ids.each do |node_id|
-          node = nodes[node_id]
-          first_node.absorb!(node)
-        end
+    def merge_nodes!(node_ids, new_attrs = {})
+      node_ids = node_ids.map { |node_id| nodes[node_id].nil? ? nil : node_id } .compact
+      return nil if node_ids.empty?
+      if new_attrs[:id].nil?
+        new_node = nodes[node_ids.shift]
+        new_node.merge(Node.new({id: 0}.merge(new_attrs)))
+      else
+        new_node = add_node!(new_attrs)
       end
+      node_ids.each do |node_id|
+        node = nodes[node_id]
+        new_node.absorb!(node)
+        raise "!!" if !nodes[node_id].nil?
+      end
+      new_node
     end
 
     def connect_nodes(node1, node2, edge)

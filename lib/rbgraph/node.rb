@@ -38,12 +38,8 @@ module Rbgraph
       self
     end
 
-    def remove_neighbor(node)
-      neighbors.delete(node.id)
-    end
-
     def absorb!(node)
-      node.edges.each do |edge_id, edge|
+      node.edges.values.each do |edge|
         other_node = edge.other_node(node)
         if edge.out_for?(node)
           graph.add_edge!(self, other_node, edge.attributes) unless other_node == self
