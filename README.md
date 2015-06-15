@@ -63,6 +63,8 @@ graph.add_edge!({id: 1}, {id: 2}, {weight: 3})
 graph.edges["1==2"].weight => 5
 ```
 
+Version 0.0.12+
+
 Support for node merging.
 ```ruby
 graph = Rbgraph::UndirectedGraph.new()
@@ -73,6 +75,10 @@ graph.add_edge!({id: 3}, {id: 4})
 # 1 -> 2 -> 3 -> 4
 graph.merge_nodes!([2, 3])
 # 1 -> 2 => 4
+
+# 1 -> 2 -> 3 -> 4
+graph.merge_nodes!([2, 3], {id: 5})
+# 1 -> 5 => 4
 ```
 
 

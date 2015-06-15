@@ -59,8 +59,15 @@ module Rbgraph
     def merge_nodes!(node_ids, new_attrs = {})
       node_ids = node_ids.map { |node_id| nodes[node_id].nil? ? nil : node_id } .compact
       return nil if node_ids.empty?
-      if new_attrs[:id].nil?
-        new_node = nodes[node_ids.shift]
+      new_id = new_attrs[:id]
+      new_node = nil
+      if new_id.nil?
+        if nodes[new_id].nil?
+          new_node = nodes[node_ids.shift]
+        else
+          new_node = nodes[new_id]
+          node_ids.delete(new_id)
+        end
         new_node.merge(Node.new({id: 0}.merge(new_attrs)))
       else
         new_node = add_node!(new_attrs)
@@ -68,7 +75,6 @@ module Rbgraph
       node_ids.each do |node_id|
         node = nodes[node_id]
         new_node.absorb!(node)
-        raise "!!" if !nodes[node_id].nil?
       end
       new_node
     end
