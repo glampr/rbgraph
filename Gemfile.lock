@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rbgraph (0.0.12)
+    rbgraph (0.0.14)
 
 GEM
   remote: http://rubygems.org/

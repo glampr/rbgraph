@@ -65,8 +65,14 @@ module Rbgraph
       attributes.merge({directed: directed, weight: weight})
     end
 
+    def to_s
+      "[#{node1.id} #{directed ?
+          "=(#{attributes[:kind]}(#{weight}))=>>" :
+          "==(#{attributes[:kind]}(#{weight}))=="} #{node2.id}]"
+    end
+
     def inspect
-      "<Rbgraph::Edge:##{id} (#{weight}) [#{node1.inspect} #{directed ? "=(#{attributes[:kind]})=>>" : "==(#{attributes[:kind]})=="} #{node2.inspect}] #{attributes.inspect}>"
+      "<Rbgraph::Edge:##{id} #{to_s} #{attributes.inspect}>"
     end
 
   end
