@@ -39,8 +39,9 @@ module Rbgraph
     end
 
     def merge(edge)
+      raise "Cannot merge directed and undirected edge!" if directed ^ edge.directed # XOR
       self.weight += edge.weight unless edge.weight.nil?
-      attributes.merge!(edge.attributes.reject { |k, v| k == :id })
+      attributes.merge!(edge.attributes)
       self
     end
 
@@ -58,6 +59,10 @@ module Rbgraph
       else
         has_node?(node)
       end
+    end
+
+    def original_attributes
+      attributes.merge({directed: directed, weight: weight})
     end
 
     def inspect

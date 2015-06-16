@@ -63,7 +63,7 @@ graph.add_edge!({id: 1}, {id: 2}, {weight: 3})
 graph.edges["1==2"].weight => 5
 ```
 
-Version 0.0.12+
+Version 0.0.13+
 
 Support for node merging.
 ```ruby

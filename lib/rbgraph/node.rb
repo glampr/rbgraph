@@ -42,9 +42,9 @@ module Rbgraph
       node.edges.values.each do |edge|
         other_node = edge.other_node(node)
         if edge.out_for?(node)
-          graph.add_edge!(self, other_node, edge.attributes) unless other_node == self
+          graph.add_edge!(self, other_node, edge.original_attributes) unless other_node == self
         elsif edge.in_for?(node)
-          graph.add_edge!(other_node, self, edge.attributes) unless other_node == self
+          graph.add_edge!(other_node, self, edge.original_attributes) unless other_node == self
         end
       end
       graph.remove_node!(node)
