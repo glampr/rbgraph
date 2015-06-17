@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'rbgraph'
-  s.version     = '0.0.14'
+  s.version     = '0.0.15'
   s.date        = '2014-12-03'
   s.summary     = 'Ruby graphs!'
   s.description = 'Simple generic graphs and operations on them in Ruby!'
@@ -10,5 +10,6 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/glampr/rbgraph'
   s.license     = 'MIT'
 
+  s.add_runtime_dependency 'json'
   s.add_development_dependency "rspec"
 end

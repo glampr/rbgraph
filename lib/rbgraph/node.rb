@@ -70,6 +70,10 @@ module Rbgraph
       "<Rbgraph::Node:##{id} #{attributes.inspect}>"
     end
 
+    def to_json
+      {id: id}.merge(attributes).to_json
+    end
+
   end
 
 end

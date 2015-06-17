@@ -75,6 +75,10 @@ module Rbgraph
       "<Rbgraph::Edge:##{id} #{to_s} #{attributes.inspect}>"
     end
 
+    def to_json
+      {id: id}.merge(original_attributes).to_json
+    end
+
   end
 
 end

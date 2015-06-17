@@ -1,3 +1,5 @@
+require 'json/add/core'
+
 module Rbgraph
 
   autoload :Graph, 'rbgraph/graph'

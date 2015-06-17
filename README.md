@@ -81,6 +81,17 @@ graph.merge_nodes!([2, 3], {id: 5})
 # 1 -> 5 => 4
 ```
 
+Version 0.0.15+
+
+Support for node/edge JSON rendering.
+```ruby
+graph = Rbgraph::UndirectedGraph.new()
+graph.add_edge!({id: 1, level: "1"}, {id: 2, level: 8}, {weight: 14})
+graph.nodes[1].to_json
+# => {"id":1,"level":"1"}
+graph.edges["1==2"].to_json
+# => {"id":"1==2","directed":false,"weight":14}
+```
 
 ### Disclaimer
 This project is written on a need to use basis for inclusion to other projects I'm working on for now, so completion is not an immediate goal.
