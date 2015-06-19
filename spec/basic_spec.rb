@@ -125,7 +125,7 @@ describe "BasicSpec" do
     expect(graph.edges.length).to eq(0)
     expect(graph.nodes.length).to eq(0)
 
-    graph.add_edge!({id: 1, level: "1"}, {id: 2, level: 8}, {weight: 14})
+    graph.add_edge!({id: 1, level: "1"}, {id: 2, level: 8}, 14)
     expect(graph.nodes[1].to_json).to eq("{\"id\":1,\"level\":\"1\"}")
     expect(graph.nodes[2].to_json).to eq("{\"id\":2,\"level\":8}")
     expect(graph.edges["1==2"].to_json).to eq("{\"id\":\"1==2\",\"directed\":false,\"weight\":14}")

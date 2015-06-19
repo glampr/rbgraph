@@ -2,8 +2,8 @@ module Rbgraph
 
     class DirectedGraph < Graph
 
-      def add_edge!(node1, node2, edge_attributes = {})
-        super(node1, node2, {directed: true}.merge(edge_attributes))
+      def directed?
+        true
       end
 
       def connect_nodes(node1, node2, edge)

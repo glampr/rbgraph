@@ -7,17 +7,22 @@ module Rbgraph
     attr_accessor :node1
     attr_accessor :node2
     attr_accessor :weight
-    attr_accessor :directed
-    attr_accessor :attributes
+    attr_accessor :kind
+    attr_accessor :data
 
-    def initialize(node1, node2, attributes = {})
-      self.node1 = node1
-      self.node2 = node2
-      self.directed = !!attributes.delete(:directed)
-      interpolated_node_ids = directed ? [node1.id, node2.id] : [node1.id, node2.id].sort
-      self.id = attributes.delete(:id) || ("%s=#{attributes[:kind]}=%s" % interpolated_node_ids)
-      self.weight = attributes.delete(:weight) || 1
-      self.attributes = attributes
+    def initialize(graph, node1, node2, weight, kind, data = {})
+      self.graph  = graph
+      self.node1  = node1
+      self.node2  = node2
+      self.weight = weight.nil? ? 1 : weight.to_i
+      self.kind   = kind
+      nodes_ids   = graph.directed? ? [
+        node1.id,
+        node2.id] : [
+          node1.id,
+          node2.id].sort
+      self.id     = data[:id] || ("%s=#{kind}=%s" % nodes_ids)
+      self.data   = data
     end
 
     def ==(node)
@@ -26,7 +31,11 @@ module Rbgraph
     alias_method :==, :eql?
 
     def hash
-      id
+      id.hash
+    end
+
+    def attributes
+      {id: id, weight: weight, kind: kind, data: data}
     end
 
     def has_node?(node)
@@ -38,45 +47,33 @@ module Rbgraph
       node == node1 ? node2 : node1
     end
 
-    def merge(edge)
-      raise "Cannot merge directed and undirected edge!" if directed ^ edge.directed # XOR
+    def merge!(edge, &block)
       self.weight += edge.weight unless edge.weight.nil?
-      attributes.merge!(edge.attributes)
+      raise "Cannot merging edges of different kind!" if kind != edge.kind
+      data.merge!(edge.data, &block)
+      graph.remove_edge!(edge)
       self
     end
 
     def out_for?(node)
-      if directed
-        node == node1
-      else
-        has_node?(node)
-      end
+      graph.directed? ? node == node1 : has_node?(node)
     end
 
     def in_for?(node)
-      if directed
-        node == node2
-      else
-        has_node?(node)
-      end
-    end
-
-    def original_attributes
-      attributes.merge({directed: directed, weight: weight})
+      graph.directed? ? node == node2 : has_node?(node)
     end
 
     def to_s
-      "[#{node1.id} #{directed ?
-          "=(#{attributes[:kind]}(#{weight}))=>>" :
-          "==(#{attributes[:kind]}(#{weight}))=="} #{node2.id}]"
+      descr = graph.directed? ? ["=", "=>>"] : ["==", "=="]
+      "[#{node1.id} %s(#{attributes[:kind]}(#{weight}))%s #{node2.id}]" % descr
+    end
+
+    def to_json(options = {})
+      attributes.to_json(options)
     end
 
     def inspect
-      "<Rbgraph::Edge:##{id} #{to_s} #{attributes.inspect}>"
-    end
-
-    def to_json
-      {id: id}.merge(original_attributes).to_json
+      "<Rbgraph::Edge:##{id} #{to_json}>"
     end
 
   end

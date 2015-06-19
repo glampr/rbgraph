@@ -4,16 +4,16 @@ module Rbgraph
 
     attr_accessor :id
     attr_accessor :graph
-    attr_accessor :attributes
     attr_accessor :neighbors
     attr_accessor :edges
+    attr_accessor :data
 
-    def initialize(attributes = {})
-      self.attributes = attributes
-      raise "Node should have an id attribute!" if attributes[:id].nil?
-      self.id = attributes.delete(:id)
-      self.neighbors = {}
-      self.edges = {}
+    def initialize(graph, id, data = {})
+      raise "Node should have a non-nil id!" if id.nil?
+      self.id         = id
+      self.neighbors  = {}
+      self.edges      = {}
+      self.data       = data
     end
 
     def ==(node)
@@ -22,12 +22,15 @@ module Rbgraph
     alias_method :==, :eql?
 
     def hash
-      id
+      id.hash
     end
 
-    def merge(node)
-      attributes.merge!(node.attributes.reject { |k, v| k == :id })
-      self
+    def attributes
+      {id: id, data: data}
+    end
+
+    def [](key)
+      attributes.fetch(key.to_sym)
     end
 
     def connect_to(node, edge)
@@ -38,16 +41,23 @@ module Rbgraph
       self
     end
 
-    def absorb!(node)
-      node.edges.values.each do |edge|
-        other_node = edge.other_node(node)
-        if edge.out_for?(node)
-          graph.add_edge!(self, other_node, edge.original_attributes) unless other_node == self
-        elsif edge.in_for?(node)
-          graph.add_edge!(other_node, self, edge.original_attributes) unless other_node == self
+    def merge!(node, options = {})
+      node.edges.values.group_by(&:kind).each do |kind, edges|
+        edges.each do |edge|
+          other_node = edge.other_node(node)
+          edge_attributes = {weight: edge.weight, kind: kind || options[:edge_kind], data: edge.data}
+          if edge.out_for?(node)
+            graph.add_edge!(self, other_node, edge_attributes) unless other_node == self
+          elsif edge.in_for?(node)
+            graph.add_edge!(other_node, self, edge_attributes) unless other_node == self
+          end
         end
       end
       graph.remove_node!(node)
+    end
+
+    def merge_data!(node)
+      data.merge!(node.data)
     end
 
     def outgoing_edges
@@ -70,8 +80,8 @@ module Rbgraph
       "<Rbgraph::Node:##{id} #{attributes.inspect}>"
     end
 
-    def to_json
-      {id: id}.merge(attributes).to_json
+    def to_json(options = {})
+      attributes.to_json(options)
     end
 
   end
