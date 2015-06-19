@@ -28,3 +28,6 @@ PLATFORMS
 DEPENDENCIES
   rbgraph!
   rspec
+
+BUNDLED WITH
+   1.10.3

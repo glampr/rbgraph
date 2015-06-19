@@ -16,12 +16,8 @@ module Rbgraph
       self.node2  = node2
       self.weight = weight.nil? ? 1 : weight.to_i
       self.kind   = kind
-      nodes_ids   = graph.directed? ? [
-        node1.id,
-        node2.id] : [
-          node1.id,
-          node2.id].sort
-      self.id     = data[:id] || ("%s=#{kind}=%s" % nodes_ids)
+      nodes_ids   = graph.directed? ? [node1.id, node2.id] : [node1.id, node2.id].sort
+      self.id     = "%s=#{kind}=%s" % nodes_ids
       self.data   = data
     end
 
@@ -68,12 +64,12 @@ module Rbgraph
       "[#{node1.id} %s(#{attributes[:kind]}(#{weight}))%s #{node2.id}]" % descr
     end
 
-    def to_json(options = {})
-      attributes.to_json(options)
+    def inspect
+      "<Rbgraph::Edge:##{id} #{attributes.inspect}>"
     end
 
-    def inspect
-      "<Rbgraph::Edge:##{id} #{to_json}>"
+    def to_json(options = {})
+      attributes.reject { |k, v| v.nil? || (v.respond_to?(:empty?) && v.empty?) }.to_json(options)
     end
 
   end

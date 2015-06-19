@@ -10,10 +10,11 @@ module Rbgraph
 
     def initialize(graph, id, data = {})
       raise "Node should have a non-nil id!" if id.nil?
+      self.graph      = graph
       self.id         = id
       self.neighbors  = {}
       self.edges      = {}
-      self.data       = data
+      self.data       = data || {}
     end
 
     def ==(node)
@@ -41,15 +42,17 @@ module Rbgraph
       self
     end
 
-    def merge!(node, options = {})
+    def merge!(node, options = {}, &block)
       node.edges.values.group_by(&:kind).each do |kind, edges|
         edges.each do |edge|
           other_node = edge.other_node(node)
-          edge_attributes = {weight: edge.weight, kind: kind || options[:edge_kind], data: edge.data}
-          if edge.out_for?(node)
-            graph.add_edge!(self, other_node, edge_attributes) unless other_node == self
-          elsif edge.in_for?(node)
-            graph.add_edge!(other_node, self, edge_attributes) unless other_node == self
+          edge_kind = edge.kind || options[:edge_kind]
+          unless other_node == self
+            if edge.out_for?(node)
+              graph.add_edge!(self, other_node, edge.weight, edge_kind, edge.data, &block)
+            elsif edge.in_for?(node)
+              graph.add_edge!(other_node, self, edge.weight, edge_kind, edge.data, &block)
+            end
           end
         end
       end
@@ -77,7 +80,7 @@ module Rbgraph
     end
 
     def inspect
-      "<Rbgraph::Node:##{id} #{attributes.inspect}>"
+      "<Rbgraph::Node:##{id} #{data.inspect}>"
     end
 
     def to_json(options = {})

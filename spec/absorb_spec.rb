@@ -7,6 +7,9 @@ describe "AbsorbSpec" do
     graph.add_edge!({id: 2}, {id: 3})
 
     expect(graph.size).to eq(3)
+    expect(graph.nodes[1].graph).to be(graph)
+    expect(graph.nodes[2].graph).to be(graph)
+    expect(graph.nodes[3].graph).to be(graph)
     expect(graph.nodes[1].neighbors.size).to eq(1)
     expect(graph.nodes[2].neighbors.size).to eq(1)
     expect(graph.nodes[3].neighbors.size).to eq(0)
@@ -74,7 +77,7 @@ describe "AbsorbSpec" do
     expect(graph.edges["3==4"].weight).to eq(3)
 
     # graph.nodes[1].absorb!(graph.nodes[2])
-    graph.merge_nodes!([2, 3], {id: 5})
+    graph.merge_nodes!([2, 3], 5)
 
     expect(graph.size).to eq(3)
     expect(graph.nodes[1].neighbors.size).to eq(1)
