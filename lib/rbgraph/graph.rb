@@ -93,6 +93,16 @@ module Rbgraph
       edges.values.map(&:inspect)
     end
 
+    if defined? ActiveSupport
+      def as_json(options = {})
+        {nodes: nodes, edges: edges}
+      end
+    else
+      def to_json(options = {})
+        JSON.generate({nodes: nodes, edges: edges})
+      end
+    end
+
   end
 
 end

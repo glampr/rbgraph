@@ -83,8 +83,14 @@ module Rbgraph
       "<Rbgraph::Node:##{id} #{data.inspect}>"
     end
 
-    def to_json(options = {})
-      attributes.to_json(options)
+    if defined? ActiveSupport
+      def as_json(options = {})
+        attributes
+      end
+    else
+      def to_json(options = {})
+        JSON.generate(attributes)
+      end
     end
 
   end

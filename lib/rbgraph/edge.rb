@@ -68,8 +68,14 @@ module Rbgraph
       "<Rbgraph::Edge:##{id} #{attributes.inspect}>"
     end
 
-    def to_json(options = {})
-      attributes.reject { |k, v| v.nil? || (v.respond_to?(:empty?) && v.empty?) }.to_json(options)
+    if defined? ActiveSupport
+      def as_json(options = {})
+        attributes.reject { |k, v| v.nil? || (v.respond_to?(:empty?) && v.empty?) }
+      end
+    else
+      def to_json(options = {})
+        JSON.generate(attributes.reject { |k, v| v.nil? || (v.respond_to?(:empty?) && v.empty?) })
+      end
     end
 
   end
