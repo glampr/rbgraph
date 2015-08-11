@@ -35,10 +35,8 @@ module Rbgraph
     end
 
     def connect_to(node, edge)
-      if neighbors[node.id].nil? && edges[edge.id].nil?
-        neighbors[node.id] ||= node
-        edges[edge.id] ||= edge
-      end
+      neighbors[node.id] ||= node
+      edges[edge.id] ||= edge
       self
     end
 

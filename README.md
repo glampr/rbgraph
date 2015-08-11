@@ -93,5 +93,15 @@ graph.edges["1==2"].to_json
 # => {"id":"1==2","directed":false,"weight":14}
 ```
 
+Version 0.2.0+
+
+Can now find connected components in a directed graph, without respecting the direction
+```ruby
+graph = Rbgraph::DirectedGraph.new()
+... # add nodes and edges
+t = Rbgraph::Traverser::BfsTraverser.new(graph)
+c = t.connected_components(respect_direction: false)
+```
+
 ### Disclaimer
 This project is written on a need to use basis for inclusion to other projects I'm working on for now, so completion is not an immediate goal.

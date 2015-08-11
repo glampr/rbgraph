@@ -15,19 +15,19 @@ module Rbgraph
         self.unvisited_nodes = Set.new [*graph.nodes.values]
       end
 
-      def connected_components
+      def connected_components(options = {})
         self.visited_nodes = Set.new
         self.queue = Queue.new
 
         while !unvisited_nodes.empty? do
           root = unvisited_nodes.to_a.first
           unvisited_nodes.delete(unvisited_nodes.to_a.first)
-          self.connected_subgraphs << bfs_from_root(root)
+          self.connected_subgraphs << bfs_from_root(root, options)
         end
         connected_subgraphs
       end
 
-      def bfs_from_root(root)
+      def bfs_from_root(root, options = {})
         subgraph = graph.class.new
         visited_nodes.add(root)
         queue.enq(root)
@@ -37,6 +37,7 @@ module Rbgraph
           yield(t) if block_given? # do sth on current node
           subgraph.nodes[t.id] ||= t
           t.edges.each do |eid, edge|
+            next if graph.directed? && !edge.out_for?(t) unless options[:respect_direction] == false
             neighbor = edge.other_node(t)
             subgraph.edges[eid] ||= edge
             subgraph.nodes[neighbor.id] ||= neighbor
