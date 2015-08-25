@@ -86,7 +86,11 @@ module Rbgraph
       if graph.directed?
         nodes = {}
         up = parent
-        nodes[up.id] = up unless up.nil?
+        if up.nil?
+          return {}
+        else
+          nodes[up.id] = up
+        end
         while !up.parent.nil?
           up = up.parent
           if nodes[up.id].nil?
@@ -102,7 +106,7 @@ module Rbgraph
     end
 
     def root
-      ancestors.values.last
+      ancestors.values.last || self
     end
 
     def out_degree

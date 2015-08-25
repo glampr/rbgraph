@@ -23,6 +23,7 @@ describe "TreeSpec" do
     expect(graph.nodes["l2.c"].parent).to be(graph.nodes["l1.a"])
     expect(graph.nodes["l1.c"].parent).to be(graph.nodes["r"])
 
+    expect(graph.nodes["r"].root).to be(graph.nodes["r"])
     expect(graph.nodes["l3.b"].root).to be(graph.nodes["r"])
     expect(graph.nodes["l3.a"].root).to be(graph.nodes["r"])
     expect(graph.nodes["l2.a"].root).to be(graph.nodes["r"])

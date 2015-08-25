@@ -22,7 +22,7 @@ module Rbgraph
       if nodes[node_id].nil?
         nodes[node_id] = Node.new(self, node_id, node_data)
       else
-        nodes[node_id] = yield(self, nodes[node.id], node_data) if block_given?
+        yield(self, nodes[node_id], node_data) if block_given?
       end
       nodes[node_id]
     end
