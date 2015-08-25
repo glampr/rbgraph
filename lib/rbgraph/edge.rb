@@ -43,6 +43,10 @@ module Rbgraph
       node == node1 ? node2 : node1
     end
 
+    def different_node(node)
+      ([node1, node2] - [node]).first
+    end
+
     def merge!(edge, &block)
       self.weight += edge.weight unless edge.weight.nil?
       raise "Cannot merging edges of different kind!" if kind != edge.kind

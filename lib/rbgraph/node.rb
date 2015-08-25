@@ -69,6 +69,42 @@ module Rbgraph
       edges.select { |eid, edge| edge.in_for?(self) }
     end
 
+    def parent
+      if graph.directed?
+        incoming_edges_arr = incoming_edges.values
+        case incoming_edges_arr.size
+        when 0 then nil
+        when 1 then incoming_edges_arr.first.different_node(self) ||
+            raise("Node #{id} is connected to self!")
+        else
+          raise "Node #{id} has more than 1 incoming edges!"
+        end
+      end
+    end
+
+    def ancestors
+      if graph.directed?
+        nodes = {}
+        up = parent
+        nodes[up.id] = up unless up.nil?
+        while !up.parent.nil?
+          up = up.parent
+          if nodes[up.id].nil?
+            nodes[up.id] = up
+          else
+            raise "Cycle detected while getting ancestors of #{id}!"
+          end
+        end
+        nodes
+      else
+        {}
+      end
+    end
+
+    def root
+      ancestors.values.last
+    end
+
     def out_degree
       outgoing_edges.size
     end
