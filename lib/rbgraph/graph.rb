@@ -35,7 +35,7 @@ module Rbgraph
         edges[new_edge.id] = new_edge
       else
         if block_given?
-          edges[new_edge.id] = yield(self, edges[edge.id], new_edge)
+          yield(self, edges[new_edge.id], new_edge)
         else
           edges[new_edge.id].weight += weight
         end
