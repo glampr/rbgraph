@@ -41,6 +41,9 @@ module Rbgraph
     end
 
     def merge!(node, options = {}, &block)
+      if options[:keep_other_data]
+        data.merge!(node.data)
+      end
       node.edges.values.group_by(&:kind).each do |kind, edges|
         edges.each do |edge|
           other_node = edge.other_node(node)

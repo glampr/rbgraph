@@ -67,6 +67,7 @@ module Rbgraph
       if new_node_id.nil?
         # If new_node_id is nil then select the first from the list as the surviving node.
         new_node = nodes[node_ids.shift]
+        new_node.data.merge!(new_node_data)
       else
         # Otherwise either check if a node with the given id exists, or create a new one.
         if nodes[new_node_id].nil?
@@ -74,7 +75,7 @@ module Rbgraph
         else
           new_node = nodes[new_node_id]
           random_not_existent_id = nodes.keys.sort_by { |k| -k.to_s.length } .first.to_s + "_"
-          new_node.merge!(Node.new(self, 0, new_node_data))
+          new_node.merge!(Node.new(self, 0, new_node_data), keep_other_data: true)
           node_ids.delete(new_node_id)
         end
       end
