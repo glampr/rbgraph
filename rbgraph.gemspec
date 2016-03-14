@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'rbgraph'
-  s.version     = '0.3.2'
+  s.version     = '0.3.3'
   s.date        = '2014-12-03'
   s.summary     = 'Ruby graphs!'
   s.description = 'Simple generic graphs and operations on them in Ruby!'
