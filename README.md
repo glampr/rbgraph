@@ -13,7 +13,7 @@ or add it to your Gemfile
 
 ## Basic objects
 
-####*Graph*: 
+####*Graph*:
 Graphs can be undirected or directed.
 ```ruby
 graph = Rbgraph::UndirectedGraph.new
@@ -201,6 +201,27 @@ graph = Rbgraph::DirectedGraph.new()
 ... # add nodes and edges
 t = Rbgraph::Traverser::BfsTraverser.new(graph)
 c = t.connected_components(respect_direction: false)
+```
+
+Version 0.5.0+
+
+You can now request a path between two nodes in the graph.
+```ruby
+graph = Rbgraph::UndirectedGraph.new()
+... # add nodes and edges
+t = Rbgraph::Traverser::BfsTraverser.new(graph)
+a = graph.nodes[1]
+b = graph.nodes[2]
+path = t.bfs_between_a_and_b(a, b)
+```
+or you can use a directed graph and choose to respect the direction of the edges while search for a path between a and b or not.
+```ruby
+graph = Rbgraph::DirectedGraph.new()
+... # add nodes and edges
+t = Rbgraph::Traverser::BfsTraverser.new(graph)
+a = graph.nodes[1]
+b = graph.nodes[2]
+path = t.bfs_between_a_and_b(a, b, respect_direction: false)
 ```
 
 ### Disclaimer
