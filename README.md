@@ -13,7 +13,7 @@ or add it to your Gemfile
 
 ## Basic objects
 
-####*Graph*:
+#### *Graph*:
 Graphs can be undirected or directed.
 ```ruby
 graph = Rbgraph::UndirectedGraph.new
@@ -22,7 +22,7 @@ graph = Rbgraph::DirectedGraph.new
 Use ```graph.directed?``` to figure out if a graph is directed or not.
 The graph object has the ```nodes``` and ```edges``` properties which are ruby hashes, the keys being the ids of each object respectively.
 
-####*Nodes*:
+#### *Nodes*:
 Every node should have an already set ```id``` property upon initialization.
 Nodes also carry data, in the data attribute which is a ruby hash.
 Usually you will not need initialize a node directly, but rather just add one with the desired properties in the graph.
@@ -60,7 +60,7 @@ and the following methods:
 * root (works only in directed graph - return the root of this node if the graph is not cyclic)
 
 
-####*Edges*:
+#### *Edges*:
 Edges connect nodes with either a one-way (directional graph) or two-way (undirectional graph) link.
 Edges have an internally computed id, which is a string representation of the ids of the nodes they connect.
 Each node can also have a ```weight``` attribute, and a ```kind``` attribute, as well as carry additional data as a ruby hash in its ```data``` attribute.
