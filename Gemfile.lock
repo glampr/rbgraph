@@ -2,13 +2,13 @@ PATH
   remote: .
   specs:
     rbgraph (0.5.0)
-      json (~> 1.8, >= 1.8.3)
+      json (>= 1.8.3, < 3.0)
 
 GEM
   remote: http://rubygems.org/
   specs:
     diff-lcs (1.2.5)
-    json (1.8.6)
+    json (2.6.1)
     rspec (3.1.0)
       rspec-core (~> 3.1.0)
       rspec-expectations (~> 3.1.0)
