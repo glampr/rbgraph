@@ -10,6 +10,6 @@ Gem::Specification.new do |s|
   s.homepage    = 'https://github.com/glampr/rbgraph'
   s.license     = 'MIT'
 
-  s.add_runtime_dependency 'json', '~> 1.8', '>= 1.8.3'
+  s.add_runtime_dependency 'json', '>= 1.8.3', '< 3.0'
   s.add_development_dependency 'rspec', '~> 3.1', '>= 3.1.0'
 end
